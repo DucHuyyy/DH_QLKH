@@ -1,4 +1,5 @@
 const Inventory = require("../models/inventory.model");
+const InventoryForDays = require("../models/inventory_for_days.model");
 
 // Create a new Inventory
 exports.create = function (req, res, next) {
@@ -23,12 +24,15 @@ exports.showInventory = function (req, res) {
   });
 };
 
-// import, export 
+// import, export
 exports.update = async function (req, res) {
   const query = req.body;
   query.quantity = Math.abs(query.quantity);
   let data = await Inventory.findById(req.params.id);
   let newQuantity;
+
+  let today = new Date();
+  today = String(today).substr(0, 15);
 
   switch (query.additional) {
     case "import":
@@ -45,6 +49,11 @@ exports.update = async function (req, res) {
     default:
       query.quantity = 0;
   }
+
+  await InventoryForDays.findOneAndUpdate(
+    { date: today },
+    { end: newQuantity }
+  );
 
   Inventory.findByIdAndUpdate(
     req.params.id,
