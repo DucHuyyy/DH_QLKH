@@ -1,9 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 3000;
+const port = 3030;
 const inventory = require("./routes/inventory.route");
 const inventoryForDays = require("./routes/InventoryForDays.route");
+const cors = require("cors");
 
 // Configuring the database
 const dbConfig = "mongodb://localhost:27017/my_QLKH";
@@ -25,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // API inventory
-app.use("/inventory", inventory);
+app.use("/inventory", cors(), inventory);
 app.use("/inventoryForDays", inventoryForDays);
 
 //listening on port

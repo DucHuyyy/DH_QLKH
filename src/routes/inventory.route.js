@@ -6,6 +6,6 @@ router.post('/create', inventory_controller.create);
 
 router.get('/:id', inventory_controller.showInventory);
 
-router.put('/:id/update', inventory_controller.update);
+router.put('/:name/update', inventory_controller.update);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const Inventory = require("../models/inventory.model");
 
 // Create a new Inventory
 exports.create = async function (req, res, next) {
+  res.set("Access-Control-Allow-Origin", "http://localhost:3000");
   let today = new Date();
   today = String(today).substr(0, 15);
 
@@ -11,7 +12,7 @@ exports.create = async function (req, res, next) {
     return res.send("Ton Tai roi");
   }
 
-  let inventory = await Inventory.findById("636dbe586f6e64b0fae4fb45");
+  let inventory = await Inventory.findOne({ name: "apple" });
   let inventoryForDays = new InventoryForDays({
     date: today,
     begin: inventory.quantity,
@@ -28,6 +29,7 @@ exports.create = async function (req, res, next) {
 
 // Show inventory
 exports.showInventory = function (req, res) {
+  res.set("Access-Control-Allow-Origin", "http://localhost:3000");
   let today = new Date();
   today = String(today).substr(0, 15);
 
